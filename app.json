@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "nomad-noovies",
+    "slug": "nomad-noovies",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "nomad-noovies"
+}
