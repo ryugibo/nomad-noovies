@@ -2,8 +2,9 @@ import AppLoading from "expo-app-loading";
 import React from "react";
 import { useFonts } from "expo-font";
 import { useAssets } from "expo-asset";
-import { Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Tabs from "./navigation/Tabs";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const [assets] = useAssets([require("./my-face.png")]);
@@ -11,5 +12,9 @@ export default function App() {
   if (!assets || !loaded) {
     return <AppLoading />;
   }
-  return <Text>We are done loading!</Text>;
+  return (
+    <NavigationContainer>
+      <Tabs />
+    </NavigationContainer>
+  );
 }
