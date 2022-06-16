@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Root from "./navigation/Root";
 import { useColorScheme } from "react-native";
 import { ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "./styled";
+import { darkTheme, lightTheme } from "./theme";
 
 export default function App() {
   const [assets] = useAssets([require("./my-face.png")]);
