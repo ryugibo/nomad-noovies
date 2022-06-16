@@ -4,7 +4,7 @@ import { useFonts } from "expo-font";
 import { useAssets } from "expo-asset";
 import { Ionicons } from "@expo/vector-icons";
 import { NavigationContainer } from "@react-navigation/native";
-import Stack from "./navigation/Stack";
+import Root from "./navigation/Root";
 
 export default function App() {
   const [assets] = useAssets([require("./my-face.png")]);
@@ -14,7 +14,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <Stack />
+      <Root />
     </NavigationContainer>
   );
 }
