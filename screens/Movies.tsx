@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, ActivityIndicator, Text, FlatList } from "react-native";
+import { Dimensions, Text, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Swiper from "react-native-swiper";
@@ -9,6 +9,7 @@ import HMedia from "../components/HMedia";
 import { useQuery, useQueryClient } from "react-query";
 import { Movie, MovieResponse, moviesApi } from "../api";
 import Loader from "../components/Loader";
+import HList from "../components/HList";
 
 const ListTitle = styled(Text)`
   color: ${(props) => props.theme.textColor};
@@ -92,26 +93,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
               />
             ))}
           </Swiper>
-          <ListContainer>
-            <ListTitle>Trending Movies</ListTitle>
-            {trendingData ? (
-              <TrendingScroll
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 30 }}
-                ItemSeparatorComponent={VSeparator}
-                keyExtractor={(item) => item.id + ""}
-                data={trendingData.results}
-                renderItem={({ item }) => (
-                  <VMedia
-                    posterPath={item.poster_path || ""}
-                    mediaTitle={item.title}
-                    vote={item.vote_average}
-                  />
-                )}
-              />
-            ) : null}
-          </ListContainer>
+          {trendingData ? <HList title="Trending Movies" data={trendingData.results} /> : null}
           <ComingSoonTitle>Coming soon</ComingSoonTitle>
         </>
       }
