@@ -30,10 +30,10 @@ const Poster = styled(Image)`
   height: 160px;
   border-radius: 5px;
 `;
-const Title = styled(Text)`
+const Title = styled(Text)<{ isDark: boolean }>`
   font-size: 16px;
   font-weight: 600;
-  color: white;
+  color: ${(props) => (props.isDark ? "white" : "black")};
 `;
 const Wrapper = styled(View)`
   flex-direction: row;
@@ -47,9 +47,9 @@ const Column = styled(View)`
   width: 60%;
   margin-left: 15px;
 `;
-const Overview = styled(Text)`
+const Overview = styled(Text)<{ isDark: boolean }>`
   margin-top: 10px;
-  color: rgba(255, 255, 255, 0.8);
+  color: ${(props) => (props.isDark ? "rgba(255, 255, 255, 0.8)" : "black")};
 `;
 const Vote = styled(Overview)`
   font-size: 12px;
@@ -104,10 +104,12 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
               <Wrapper>
                 <Poster source={{ uri: makeImgPath(movie.poster_path) }} />
                 <Column>
-                  <Title>{movie.title}</Title>
-                  <Overview>{movie.overview.slice(0, 90)}...</Overview>
+                  <Title isDark={isDark}>{movie.title}</Title>
+                  <Overview isDark={isDark}>
+                    {movie.overview.slice(0, 90)}...
+                  </Overview>
                   {movie.vote_average > 0 && (
-                    <Vote>⭐{movie.vote_average}/10</Vote>
+                    <Vote isDark={isDark}>⭐{movie.vote_average}/10</Vote>
                   )}
                 </Column>
               </Wrapper>
