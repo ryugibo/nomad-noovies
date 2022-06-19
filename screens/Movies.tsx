@@ -11,8 +11,8 @@ import styled from "styled-components/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Swiper from "react-native-swiper";
 import Slide from "../components/Slide";
-import Poster from "../components/Poster";
 import VMedia from "../components/VMedia";
+import HMedia from "../components/HMedia";
 
 const API_KEY = "3c983d1e60d94e03820760af3fae791e";
 
@@ -31,33 +31,8 @@ const ListTitle = styled(Text)`
 const TrendingScroll = styled(ScrollView)`
   margin-top: 20px;
 `;
-const Title = styled(Text)`
-  color: ${(props) => props.theme.textColor};
-  font-weight: 600;
-  margin-top: 7px;
-  margin-bottom: 5px;
-  font-size: 8px;
-`;
 const ListContainer = styled.View`
   margin-bottom: 40px;
-`;
-const HMovie = styled(View)`
-  padding: 0px 30px;
-  margin-bottom: 30px;
-  flex-direction: row;
-`;
-const HColumn = styled(View)`
-  margin-left: 15px;
-  width: 80%;
-`;
-const Overview = styled(Text)`
-  color: ${(props) => props.theme.textColor};
-  width: 80%;
-`;
-const ReleaseDate = styled(Text)`
-  color: ${(props) => props.theme.textColor};
-  font-size: 12px;
-  margin-vertical: 10px;
 `;
 const ComingSoonTitle = styled(ListTitle)`
   margin-bottom: 30px;
@@ -166,24 +141,14 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
       </ListContainer>
       <ComingSoonTitle>Coming soon</ComingSoonTitle>
       {upcoming.map((movie) => (
-        <HMovie key={movie.id}>
-          <Poster path={movie.poster_path} />
-          <HColumn>
-            <Title>{movie.title}</Title>
-            <ReleaseDate>
-              {new Date(movie.release_date).toLocaleDateString("ko", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </ReleaseDate>
-            <Overview>
-              {movie.overview !== "" && movie.overview.length > 80
-                ? `${movie.overview.slice(0, 80)}...`
-                : movie.overview}
-            </Overview>
-          </HColumn>
-        </HMovie>
+        <HMedia
+          key={movie.id}
+          posterPath={movie.poster_path}
+          mediaTitle={movie.title}
+          overview={movie.overview}
+          releaseDate={movie.release_date}
+          vote={movie.vote_average}
+        />
       ))}
     </Container>
   );
