@@ -39,27 +39,35 @@ const HSeparator = styled.View`
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
-  const [refreshing, setRefreshing] = useState(false);
-  const { isLoading: isLoadingNowPlaying, data: nowPlayingData } = useQuery(
-    "nowPlaying",
-    moviesApi.nowPlaying
-  );
-  const { isLoading: isLoadingTrending, data: trendingData } = useQuery(
-    "trending",
-    moviesApi.trending
-  );
-  const { isLoading: isLoadingUpcoming, data: upcomingData } = useQuery(
-    "upcoming",
-    moviesApi.upcoming
-  );
+  const {
+    isLoading: isLoadingNowPlaying,
+    data: nowPlayingData,
+    refetch: refetchNowPlaying,
+    isRefetching: isRefetchingNowPlaying,
+  } = useQuery("nowPlaying", moviesApi.nowPlaying);
+  const {
+    isLoading: isLoadingTrending,
+    data: trendingData,
+    refetch: refetchTrending,
+    isRefetching: isRefetchingTrending,
+  } = useQuery("trending", moviesApi.trending);
+  const {
+    isLoading: isLoadingUpcoming,
+    data: upcomingData,
+    refetch: refetchUpcoming,
+    isRefetching: isRefetchingUpcoming,
+  } = useQuery("upcoming", moviesApi.upcoming);
 
   const loading = isLoadingNowPlaying || isLoadingTrending || isLoadingUpcoming;
+  const refreshing =
+    isRefetchingNowPlaying || isRefetchingTrending || isRefetchingUpcoming;
 
-  const onRefresh = async () => {};
-
-  useEffect(() => {
-    // getData();
-  }, []);
+  console.log(refreshing);
+  const onRefresh = async () => {
+    refetchNowPlaying();
+    refetchTrending();
+    refetchUpcoming();
+  };
 
   const renderVMedia = ({ item }) => (
     <VMedia
