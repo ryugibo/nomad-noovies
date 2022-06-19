@@ -13,7 +13,6 @@ const Title = styled(Text)`
 `;
 const HMovie = styled(View)`
   padding: 0px 30px;
-  margin-bottom: 30px;
   flex-direction: row;
 `;
 const HColumn = styled(View)`
@@ -60,7 +59,7 @@ const HMedia: React.FC<HMediaProps> = ({
         ) : null}
         {vote ? <Vote vote={vote} /> : null}
         <Overview>
-          {overview !== "" && overview.length > 80
+          {overview && overview !== "" && overview.length > 80
             ? `${overview.slice(0, 80)}...`
             : overview}
         </Overview>
