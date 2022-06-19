@@ -5,7 +5,6 @@ import Poster from "../components/Poster";
 import Vote from "../components/Vote";
 
 const Movie = styled(View)`
-  margin-right: 20px;
   align-items: center;
 `;
 const Title = styled(Text)`

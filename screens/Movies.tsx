@@ -3,9 +3,9 @@ import {
   Dimensions,
   ActivityIndicator,
   Text,
-  ScrollView,
   View,
   RefreshControl,
+  FlatList,
 } from "react-native";
 import styled from "styled-components/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -28,7 +28,7 @@ const ListTitle = styled(Text)`
   font-weight: 600;
   margin-left: 30px;
 `;
-const TrendingScroll = styled(ScrollView)`
+const TrendingScroll = styled(FlatList)`
   margin-top: 20px;
 `;
 const ListContainer = styled.View`
@@ -125,19 +125,20 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
       <ListContainer>
         <ListTitle>Trending Movies</ListTitle>
         <TrendingScroll
-          contentContainerStyle={{ paddingLeft: 30 }}
           horizontal
           showsHorizontalScrollIndicator={false}
-        >
-          {trending.map((movie) => (
+          contentContainerStyle={{ paddingHorizontal: 30 }}
+          ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
+          keyExtractor={(item) => item.id + ""}
+          data={trending}
+          renderItem={({ item }) => (
             <VMedia
-              key={movie.id}
-              posterPath={movie.poster_path}
-              mediaTitle={movie.title}
-              vote={movie.vote_average}
+              posterPath={item.poster_path}
+              mediaTitle={item.title}
+              vote={item.vote_average}
             />
-          ))}
-        </TrendingScroll>
+          )}
+        />
       </ListContainer>
       <ComingSoonTitle>Coming soon</ComingSoonTitle>
       {upcoming.map((movie) => (
