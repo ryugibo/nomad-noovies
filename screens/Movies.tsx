@@ -5,7 +5,6 @@ import {
   Text,
   ScrollView,
   View,
-  useColorScheme,
   RefreshControl,
 } from "react-native";
 import styled from "styled-components/native";
@@ -13,7 +12,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Swiper from "react-native-swiper";
 import Slide from "../components/Slide";
 import Poster from "../components/Poster";
-import Vote from "../components/Vote";
+import VMedia from "../components/VMedia";
 
 const API_KEY = "3c983d1e60d94e03820760af3fae791e";
 
@@ -28,10 +27,6 @@ const ListTitle = styled(Text)`
   font-size: 18px;
   font-weight: 600;
   margin-left: 30px;
-`;
-const Movie = styled(View)`
-  margin-right: 20px;
-  align-items: center;
 `;
 const TrendingScroll = styled(ScrollView)`
   margin-top: 20px;
@@ -160,14 +155,12 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
           showsHorizontalScrollIndicator={false}
         >
           {trending.map((movie) => (
-            <Movie key={movie.id}>
-              <Poster path={movie.poster_path} />
-              <Title>
-                {movie.title.slice(0, 13)}
-                {movie.title.length > 13 ? "..." : ""}
-              </Title>
-              <Vote vote={movie.vote_average} />
-            </Movie>
+            <VMedia
+              key={movie.id}
+              posterPath={movie.poster_path}
+              mediaTitle={movie.title}
+              vote={movie.vote_average}
+            />
           ))}
         </TrendingScroll>
       </ListContainer>
