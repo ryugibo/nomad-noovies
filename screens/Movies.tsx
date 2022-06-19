@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Dimensions,
-  ActivityIndicator,
-  Text,
-  View,
-  FlatList,
-} from "react-native";
+import { Dimensions, ActivityIndicator, Text, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Swiper from "react-native-swiper";
@@ -13,9 +7,6 @@ import Slide from "../components/Slide";
 import VMedia from "../components/VMedia";
 import HMedia from "../components/HMedia";
 
-const API_KEY = "3c983d1e60d94e03820760af3fae791e";
-
-const Container = styled.ScrollView``;
 const Loader = styled.View`
   flex: 1;
   justify-content: center;
@@ -47,48 +38,8 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
   const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
-  const [upcoming, setUpcoming] = useState([]);
-  const [trending, setTrending] = useState([]);
-  const getTrending = async () => {
-    const { results } = await (
-      await fetch(
-        `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}&region=KR&language=ko-KR`
-      )
-    ).json();
 
-    setTrending(results);
-  };
-  const getUpcoming = async () => {
-    const { results } = await (
-      await fetch(
-        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&region=KR&language=ko-KR`
-      )
-    ).json();
-
-    setUpcoming(results);
-  };
-  const getNowPlaying = async () => {
-    const { results } = await (
-      await fetch(
-        `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&region=KR&language=ko-KR`
-      )
-    ).json();
-
-    setNowPlayingMovies(results);
-  };
-
-  const getData = async () => {
-    await Promise.all([getNowPlaying(), getTrending(), getUpcoming()]);
-    setLoading(false);
-  };
-
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await getData();
-    setRefreshing(false);
-  };
+  const onRefresh = async () => {};
 
   useEffect(() => {
     getData();
@@ -110,7 +61,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
       vote={item.vote_average}
     />
   );
-  const movieKeyExtractor = (item) => item.id + "";
+  const movieKeyExtractor = (item: { id: number }) => item.id + "";
 
   return loading ? (
     <Loader>
