@@ -36,6 +36,12 @@ const ListContainer = styled.View`
 const ComingSoonTitle = styled(ListTitle)`
   margin-bottom: 30px;
 `;
+const VSeparator = styled.View`
+  width: 20px;
+`;
+const HSeparator = styled.View`
+  width: 20px;
+`;
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -88,6 +94,24 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
     getData();
   }, []);
 
+  const renderVMedia = ({ item }) => (
+    <VMedia
+      posterPath={item.poster_path}
+      mediaTitle={item.title}
+      vote={item.vote_average}
+    />
+  );
+  const renderHMedia = ({ item }) => (
+    <HMedia
+      posterPath={item.poster_path}
+      mediaTitle={item.title}
+      overview={item.overview}
+      releaseDate={item.release_date}
+      vote={item.vote_average}
+    />
+  );
+  const movieKeyExtractor = (item) => item.id + "";
+
   return loading ? (
     <Loader>
       <ActivityIndicator size="large" />
@@ -128,33 +152,19 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{ paddingHorizontal: 30 }}
-              ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-              keyExtractor={(item) => item.id + ""}
+              ItemSeparatorComponent={VSeparator}
+              keyExtractor={movieKeyExtractor}
               data={trending}
-              renderItem={({ item }) => (
-                <VMedia
-                  posterPath={item.poster_path}
-                  mediaTitle={item.title}
-                  vote={item.vote_average}
-                />
-              )}
+              renderItem={renderVMedia}
             />
           </ListContainer>
           <ComingSoonTitle>Coming soon</ComingSoonTitle>
         </>
       }
       data={upcoming}
-      keyExtractor={(item) => item.id + ""}
-      ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-      renderItem={({ item }) => (
-        <HMedia
-          posterPath={item.poster_path}
-          mediaTitle={item.title}
-          overview={item.overview}
-          releaseDate={item.release_date}
-          vote={item.vote_average}
-        />
-      )}
+      keyExtractor={movieKeyExtractor}
+      ItemSeparatorComponent={HSeparator}
+      renderItem={renderHMedia}
     />
   );
 };
