@@ -1,17 +1,14 @@
+import React from "react";
 import styled from "styled-components/native";
 import { StyleSheet, View, Image, Text, useColorScheme } from "react-native";
 import { BlurView } from "expo-blur";
 import { makeImgPath } from "../utils";
+import Poster from "./Poster";
 
 const SlideView = styled(View)`
   flex: 1;
 `;
 const BgImg = styled(Image)``;
-const Poster = styled(Image)`
-  width: 100px;
-  height: 160px;
-  border-radius: 5px;
-`;
 const Title = styled(Text)<{ isDark: boolean }>`
   font-size: 16px;
   font-weight: 600;
@@ -40,7 +37,7 @@ const Vote = styled(Overview)`
 interface SlideProps {
   backdropPath: string;
   posterPath: string;
-  title: string;
+  movieTitle: string;
   overview: string;
   voteAverage: number;
 }
@@ -48,7 +45,7 @@ interface SlideProps {
 const Slide: React.FC<SlideProps> = ({
   backdropPath,
   posterPath,
-  title,
+  movieTitle,
   overview,
   voteAverage,
 }) => {
@@ -65,9 +62,9 @@ const Slide: React.FC<SlideProps> = ({
         style={StyleSheet.absoluteFill}
       >
         <Wrapper>
-          <Poster source={{ uri: makeImgPath(posterPath) }} />
+          <Poster path={posterPath} />
           <Column>
-            <Title isDark={isDark}>{title}</Title>
+            <Title isDark={isDark}>{movieTitle}</Title>
             <Overview isDark={isDark}>{overview.slice(0, 90)}...</Overview>
             {voteAverage > 0 && <Vote isDark={isDark}>⭐{voteAverage}/10</Vote>}
           </Column>

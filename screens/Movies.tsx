@@ -18,6 +18,26 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
   const [loading, setLoading] = useState(true);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const getTrending = async () => {
+    const { results } = await (
+      await fetch(
+        `https://api.themoviedb.org/3/movie/trending/movie/week?api_key=${API_KEY}&region=KR&language=ko-KR`
+      )
+    ).json();
+
+    setTrending(results);
+  };
+  const getUpcoming = async () => {
+    const { results } = await (
+      await fetch(
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&region=KR&language=ko-KR`
+      )
+    ).json();
+
+    setUpcoming(results);
+  };
   const getNowPlaying = async () => {
     const { results } = await (
       await fetch(
@@ -26,11 +46,15 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
     ).json();
 
     setNowPlayingMovies(results);
+  };
+
+  const getData = async () => {
+    await Promise.all([getNowPlaying(), getTrending(), getUpcoming()]);
     setLoading(false);
   };
 
   useEffect(() => {
-    getNowPlaying();
+    getData();
   }, []);
   return loading ? (
     <Loader>
@@ -52,7 +76,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
             key={movie.id}
             backdropPath={movie.backdrop_path}
             posterPath={movie.poster_path}
-            title={movie.title}
+            movieTitle={movie.title}
             overview={movie.overview}
             voteAverage={movie.vote_average}
           />
