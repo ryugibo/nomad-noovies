@@ -6,6 +6,8 @@ import Swiper from "react-native-swiper";
 import Slide from "../components/Slide";
 import VMedia from "../components/VMedia";
 import HMedia from "../components/HMedia";
+import { useQuery } from "react-query";
+import { moviesApi } from "../api";
 
 const Loader = styled.View`
   flex: 1;
@@ -31,18 +33,32 @@ const VSeparator = styled.View`
   width: 20px;
 `;
 const HSeparator = styled.View`
-  width: 20px;
+  height: 20px;
 `;
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
   const [refreshing, setRefreshing] = useState(false);
+  const { isLoading: isLoadingNowPlaying, data: nowPlayingData } = useQuery(
+    "nowPlaying",
+    moviesApi.nowPlaying
+  );
+  const { isLoading: isLoadingTrending, data: trendingData } = useQuery(
+    "trending",
+    moviesApi.trending
+  );
+  const { isLoading: isLoadingUpcoming, data: upcomingData } = useQuery(
+    "upcoming",
+    moviesApi.upcoming
+  );
+
+  const loading = isLoadingNowPlaying || isLoadingTrending || isLoadingUpcoming;
 
   const onRefresh = async () => {};
 
   useEffect(() => {
-    getData();
+    // getData();
   }, []);
 
   const renderVMedia = ({ item }) => (
@@ -86,7 +102,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
               marginBottom: 30,
             }}
           >
-            {nowPlayingMovies.map((movie) => (
+            {nowPlayingData.results.map((movie) => (
               <Slide
                 key={movie.id}
                 backdropPath={movie.backdrop_path}
@@ -105,14 +121,14 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
               contentContainerStyle={{ paddingHorizontal: 30 }}
               ItemSeparatorComponent={VSeparator}
               keyExtractor={movieKeyExtractor}
-              data={trending}
+              data={trendingData.results}
               renderItem={renderVMedia}
             />
           </ListContainer>
           <ComingSoonTitle>Coming soon</ComingSoonTitle>
         </>
       }
-      data={upcoming}
+      data={upcomingData.results}
       keyExtractor={movieKeyExtractor}
       ItemSeparatorComponent={HSeparator}
       renderItem={renderHMedia}
