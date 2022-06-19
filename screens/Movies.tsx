@@ -22,8 +22,8 @@ const Loader = styled.View`
   justify-content: center;
   align-items: center;
 `;
-const ListTitle = styled(Text)<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : "black")};
+const ListTitle = styled(Text)`
+  color: ${(props) => props.theme.textColor};
   font-size: 18px;
   font-weight: 600;
   margin-left: 30px;
@@ -35,15 +35,15 @@ const Movie = styled(View)`
 const TrendingScroll = styled(ScrollView)`
   margin-top: 20px;
 `;
-const Title = styled(Text)<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : "black")};
+const Title = styled(Text)`
+  color: ${(props) => props.theme.textColor};
   font-weight: 600;
   margin-top: 7px;
   margin-bottom: 5px;
   font-size: 8px;
 `;
-const Vote = styled(Text)<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : "black")};
+const Vote = styled(Text)`
+  color: ${(props) => props.theme.textColor};
   font-size: 10px;
 `;
 const ListContainer = styled.View`
@@ -58,12 +58,12 @@ const HColumn = styled(View)`
   margin-left: 15px;
   width: 80%;
 `;
-const Overview = styled(Text)<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : "black")};
+const Overview = styled(Text)`
+  color: ${(props) => props.theme.textColor};
   width: 80%;
 `;
-const ReleaseDate = styled(Text)<{ isDark: boolean }>`
-  color: ${(props) => (props.isDark ? "white" : "black")};
+const ReleaseDate = styled(Text)`
+  color: ${(props) => props.theme.textColor};
   font-size: 12px;
   margin-vertical: 10px;
 `;
@@ -74,7 +74,6 @@ const ComingSoonTitle = styled(ListTitle)`
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
-  const isDark = useColorScheme() === "dark";
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
@@ -157,7 +156,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
         ))}
       </Swiper>
       <ListContainer>
-        <ListTitle isDark={isDark}>Trending Movies</ListTitle>
+        <ListTitle>Trending Movies</ListTitle>
         <TrendingScroll
           contentContainerStyle={{ paddingLeft: 30 }}
           horizontal
@@ -166,11 +165,11 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
           {trending.map((movie) => (
             <Movie key={movie.id}>
               <Poster path={movie.poster_path} />
-              <Title isDark={isDark}>
+              <Title>
                 {movie.title.slice(0, 13)}
                 {movie.title.length > 13 ? "..." : ""}
               </Title>
-              <Vote isDark={isDark}>
+              <Vote>
                 {movie.vote_average > 0
                   ? `⭐${movie.vote_average}/10`
                   : "Coming soon"}
@@ -179,20 +178,20 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
           ))}
         </TrendingScroll>
       </ListContainer>
-      <ComingSoonTitle isDark={isDark}>Coming soon</ComingSoonTitle>
+      <ComingSoonTitle>Coming soon</ComingSoonTitle>
       {upcoming.map((movie) => (
         <HMovie key={movie.id}>
           <Poster path={movie.poster_path} />
           <HColumn>
-            <Title isDark={isDark}>{movie.title}</Title>
-            <ReleaseDate isDark={isDark}>
+            <Title>{movie.title}</Title>
+            <ReleaseDate>
               {new Date(movie.release_date).toLocaleDateString("ko", {
                 month: "long",
                 day: "numeric",
                 year: "numeric",
               })}
             </ReleaseDate>
-            <Overview isDark={isDark}>
+            <Overview>
               {movie.overview !== "" && movie.overview.length > 80
                 ? `${movie.overview.slice(0, 80)}...`
                 : movie.overview}

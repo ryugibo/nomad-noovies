@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components/native";
+import styled, { useTheme } from "styled-components/native";
 import { StyleSheet, View, Image, Text, useColorScheme } from "react-native";
 import { BlurView } from "expo-blur";
 import { makeImgPath } from "../utils";
@@ -9,10 +9,10 @@ const SlideView = styled(View)`
   flex: 1;
 `;
 const BgImg = styled(Image)``;
-const Title = styled(Text)<{ isDark: boolean }>`
+const Title = styled(Text)`
   font-size: 16px;
   font-weight: 600;
-  color: ${(props) => (props.isDark ? "white" : "black")};
+  color: ${(props) => props.theme.textColor};
 `;
 const Wrapper = styled(View)`
   flex-direction: row;
@@ -26,9 +26,9 @@ const Column = styled(View)`
   width: 60%;
   margin-left: 15px;
 `;
-const Overview = styled(Text)<{ isDark: boolean }>`
+const Overview = styled(Text)`
   margin-top: 10px;
-  color: ${(props) => (props.isDark ? "rgba(255, 255, 255, 0.8)" : "black")};
+  color: ${(props) => props.theme.textColor};
 `;
 const Vote = styled(Overview)`
   font-size: 12px;
@@ -49,7 +49,7 @@ const Slide: React.FC<SlideProps> = ({
   overview,
   voteAverage,
 }) => {
-  const isDark = useColorScheme() === "dark";
+  const theme = useTheme();
   return (
     <SlideView>
       <BgImg
@@ -57,16 +57,16 @@ const Slide: React.FC<SlideProps> = ({
         source={{ uri: makeImgPath(backdropPath) }}
       />
       <BlurView
-        tint={isDark ? "dark" : "light"}
+        tint={theme.blurTint}
         intensity={80}
         style={StyleSheet.absoluteFill}
       >
         <Wrapper>
           <Poster path={posterPath} />
           <Column>
-            <Title isDark={isDark}>{movieTitle}</Title>
-            <Overview isDark={isDark}>{overview.slice(0, 90)}...</Overview>
-            {voteAverage > 0 && <Vote isDark={isDark}>⭐{voteAverage}/10</Vote>}
+            <Title>{movieTitle}</Title>
+            <Overview>{overview.slice(0, 90)}...</Overview>
+            {voteAverage > 0 && <Vote>⭐{voteAverage}/10</Vote>}
           </Column>
         </Wrapper>
       </BlurView>
