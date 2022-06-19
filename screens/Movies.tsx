@@ -13,6 +13,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Swiper from "react-native-swiper";
 import Slide from "../components/Slide";
 import Poster from "../components/Poster";
+import Vote from "../components/Vote";
 
 const API_KEY = "3c983d1e60d94e03820760af3fae791e";
 
@@ -41,10 +42,6 @@ const Title = styled(Text)`
   margin-top: 7px;
   margin-bottom: 5px;
   font-size: 8px;
-`;
-const Vote = styled(Text)`
-  color: ${(props) => props.theme.textColor};
-  font-size: 10px;
 `;
 const ListContainer = styled.View`
   margin-bottom: 40px;
@@ -169,11 +166,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
                 {movie.title.slice(0, 13)}
                 {movie.title.length > 13 ? "..." : ""}
               </Title>
-              <Vote>
-                {movie.vote_average > 0
-                  ? `⭐${movie.vote_average}/10`
-                  : "Coming soon"}
-              </Vote>
+              <Vote vote={movie.vote_average} />
             </Movie>
           ))}
         </TrendingScroll>

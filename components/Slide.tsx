@@ -4,6 +4,7 @@ import { StyleSheet, View, Image, Text, useColorScheme } from "react-native";
 import { BlurView } from "expo-blur";
 import { makeImgPath } from "../utils";
 import Poster from "./Poster";
+import Vote from "./Vote";
 
 const SlideView = styled(View)`
   flex: 1;
@@ -29,9 +30,6 @@ const Column = styled(View)`
 const Overview = styled(Text)`
   margin-top: 10px;
   color: ${(props) => props.theme.textColor};
-`;
-const Vote = styled(Overview)`
-  font-size: 12px;
 `;
 
 interface SlideProps {
@@ -66,7 +64,9 @@ const Slide: React.FC<SlideProps> = ({
           <Column>
             <Title>{movieTitle}</Title>
             <Overview>{overview.slice(0, 90)}...</Overview>
-            {voteAverage > 0 && <Vote>⭐{voteAverage}/10</Vote>}
+            <View style={{ marginTop: 10 }}>
+              <Vote vote={voteAverage} />
+            </View>
           </Column>
         </Wrapper>
       </BlurView>
