@@ -1,5 +1,6 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 import Poster from "../components/Poster";
 import Vote from "../components/Vote";
@@ -21,15 +22,21 @@ interface VMediaProps {
   vote: number;
 }
 const VMedia: React.FC<VMediaProps> = ({ posterPath, mediaTitle, vote }) => {
+  const navigation = useNavigation();
+  const goToDetail = () => {
+    navigation.navigate("Stack", { screen: "Detail" });
+  };
   return (
-    <Movie>
-      <Poster path={posterPath} />
-      <Title>
-        {mediaTitle.slice(0, 13)}
-        {mediaTitle.length > 13 ? "..." : ""}
-      </Title>
-      <Vote vote={vote} />
-    </Movie>
+    <TouchableOpacity onPress={goToDetail}>
+      <Movie>
+        <Poster path={posterPath} />
+        <Title>
+          {mediaTitle.slice(0, 13)}
+          {mediaTitle.length > 13 ? "..." : ""}
+        </Title>
+        <Vote vote={vote} />
+      </Movie>
+    </TouchableOpacity>
   );
 };
 

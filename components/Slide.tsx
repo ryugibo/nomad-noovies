@@ -1,10 +1,17 @@
 import React from "react";
 import styled, { useTheme } from "styled-components/native";
-import { StyleSheet, View, Image, Text, useColorScheme } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { BlurView } from "expo-blur";
 import { makeImgPath } from "../utils";
 import Poster from "./Poster";
 import Vote from "./Vote";
+import { useNavigation } from "@react-navigation/native";
 
 const SlideView = styled(View)`
   flex: 1;
@@ -48,29 +55,35 @@ const Slide: React.FC<SlideProps> = ({
   voteAverage,
 }) => {
   const theme = useTheme();
+  const navigation = useNavigation();
+  const goToDetail = () => {
+    navigation.navigate("Stack", { screen: "Detail" });
+  };
   return (
-    <SlideView>
-      <BgImg
-        style={StyleSheet.absoluteFill}
-        source={{ uri: makeImgPath(backdropPath) }}
-      />
-      <BlurView
-        tint={theme.blurTint}
-        intensity={80}
-        style={StyleSheet.absoluteFill}
-      >
-        <Wrapper>
-          <Poster path={posterPath} />
-          <Column>
-            <Title>{movieTitle}</Title>
-            <Overview>{overview.slice(0, 90)}...</Overview>
-            <View style={{ marginTop: 10 }}>
-              <Vote vote={voteAverage} />
-            </View>
-          </Column>
-        </Wrapper>
-      </BlurView>
-    </SlideView>
+    <TouchableWithoutFeedback onPress={goToDetail}>
+      <SlideView>
+        <BgImg
+          style={StyleSheet.absoluteFill}
+          source={{ uri: makeImgPath(backdropPath) }}
+        />
+        <BlurView
+          tint={theme.blurTint}
+          intensity={80}
+          style={StyleSheet.absoluteFill}
+        >
+          <Wrapper>
+            <Poster path={posterPath} />
+            <Column>
+              <Title>{movieTitle}</Title>
+              <Overview>{overview.slice(0, 90)}...</Overview>
+              <View style={{ marginTop: 10 }}>
+                <Vote vote={voteAverage} />
+              </View>
+            </Column>
+          </Wrapper>
+        </BlurView>
+      </SlideView>
+    </TouchableWithoutFeedback>
   );
 };
 
