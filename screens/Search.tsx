@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled, { useTheme } from "styled-components/native";
 import { View, Text, ScrollView, TextInput } from "react-native";
+import { useQuery } from "react-query";
+import { moviesApi, tvApi } from "../api";
 
 const Container = styled(ScrollView)``;
 
@@ -16,8 +18,24 @@ const SearchBar = styled(TextInput)`
 const Search = () => {
   const theme = useTheme();
   const [keyword, setKeyword] = useState("");
+  const {
+    isLoading: isLoadingMovies,
+    data: dataMovies,
+    refetch: searchMovies,
+  } = useQuery(["searchMovies", keyword], moviesApi.search, { enabled: false });
+  const {
+    isLoading: isLoadingTv,
+    data: dataTv,
+    refetch: searchTv,
+  } = useQuery(["searchTvs", keyword], tvApi.search, { enabled: false });
   const onChangeText = (text: string) => setKeyword(text);
-  console.log(keyword);
+  const onSubmit = () => {
+    if (keyword === "") {
+      return;
+    }
+    searchMovies();
+    searchTv();
+  };
   return (
     <Container>
       <SearchBar
@@ -25,6 +43,7 @@ const Search = () => {
         placeholderTextColor={theme.textInputPlaceholderColor}
         returnKeyType="search"
         onChangeText={onChangeText}
+        onSubmitEditing={onSubmit}
       />
     </Container>
   );
