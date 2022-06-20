@@ -12,6 +12,8 @@ import { makeImgPath } from "../utils";
 import Poster from "./Poster";
 import Vote from "./Vote";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigation/Root";
 
 const SlideView = styled(View)`
   flex: 1;
@@ -47,6 +49,8 @@ interface SlideProps {
   voteAverage: number;
 }
 
+type RootNavProp = NativeStackNavigationProp<RootStackParamList, "Tabs">;
+
 const Slide: React.FC<SlideProps> = ({
   backdropPath,
   posterPath,
@@ -55,7 +59,7 @@ const Slide: React.FC<SlideProps> = ({
   voteAverage,
 }) => {
   const theme = useTheme();
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootNavProp>();
   const goToDetail = () => {
     navigation.navigate("Stack", { screen: "Detail" });
   };

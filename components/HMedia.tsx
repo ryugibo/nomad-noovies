@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 import Poster from "../components/Poster";
 import Vote from "../components/Vote";
+import { RootStackParamList } from "../navigation/Root";
 
 const Title = styled(Text)`
   color: ${(props) => props.theme.textColor};
@@ -37,6 +39,9 @@ interface HMediaProps {
   releaseDate?: string;
   vote?: number;
 }
+
+type RootNavProp = NativeStackNavigationProp<RootStackParamList, "Tabs">;
+
 const HMedia: React.FC<HMediaProps> = ({
   posterPath,
   mediaTitle,
@@ -44,7 +49,7 @@ const HMedia: React.FC<HMediaProps> = ({
   releaseDate,
   vote,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootNavProp>();
   const goToDetail = () => {
     navigation.navigate("Stack", { screen: "Detail" });
   };
