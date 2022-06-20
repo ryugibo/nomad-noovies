@@ -7,6 +7,8 @@ declare module "styled-components" {
   export interface DefaultTheme {
     blurTint: BlurTint;
     mainBgColor: string;
+    textInputBgColor: string;
+    textInputPlaceholderColor: string;
     textColor: string;
     accentColor: string;
   }
