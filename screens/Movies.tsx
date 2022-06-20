@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dimensions, Text, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -37,28 +37,26 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
   const queryClient = useQueryClient();
+  const [refreshing, setRefreshing] = useState(false);
   const {
     isLoading: isLoadingNowPlaying,
     data: nowPlayingData,
-    isRefetching: isRefetchingNowPlaying,
   } = useQuery<MovieResponse>(["movies", "nowPlaying"], moviesApi.nowPlaying);
   const {
     isLoading: isLoadingTrending,
     data: trendingData,
-    isRefetching: isRefetchingTrending,
   } = useQuery<MovieResponse>(["movies", "trending"], moviesApi.trending);
   const {
     isLoading: isLoadingUpcoming,
     data: upcomingData,
-    isRefetching: isRefetchingUpcoming,
   } = useQuery<MovieResponse>(["movies", "upcoming"], moviesApi.upcoming);
 
   const loading = isLoadingNowPlaying || isLoadingTrending || isLoadingUpcoming;
-  const refreshing =
-    isRefetchingNowPlaying || isRefetchingTrending || isRefetchingUpcoming;
 
   const onRefresh = async () => {
+    setRefreshing(true);
     await queryClient.refetchQueries(["movies"]);
+    setRefreshing(false);
   };
 
   return loading ? (
