@@ -72,9 +72,14 @@ export const moviesApi: Fetchers<MovieResponse> = {
     ),
   search: async ({ queryKey }) => {
     const [_, keyword] = queryKey;
-    console.log(keyword);
     return await fetch(
       `${BASE_URL}/search/movie?query=${keyword}&api_key=${API_KEY}&${PARAMS}`
+    ).then((res) => res.json());
+  },
+  detail: async ({ queryKey }) => {
+    const [_, id] = queryKey;
+    return await fetch(
+      `${BASE_URL}/movie/${id}?api_key=${API_KEY}&${PARAMS}`
     ).then((res) => res.json());
   },
 };
@@ -96,6 +101,12 @@ export const tvApi: Fetchers<TVResponse> = {
     const [_, keyword] = queryKey;
     return await fetch(
       `${BASE_URL}/search/tv?query=${keyword}&api_key=${API_KEY}&${PARAMS}`
+    ).then((res) => res.json());
+  },
+  detail: async ({ queryKey }) => {
+    const [_, id] = queryKey;
+    return await fetch(
+      `${BASE_URL}/tv/${id}?api_key=${API_KEY}&${PARAMS}`
     ).then((res) => res.json());
   },
 };

@@ -9,10 +9,11 @@ import {
   Text,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Movie, TV } from "../api";
+import { Movie, moviesApi, TV, tvApi } from "../api";
 import Poster from "../components/Poster";
 import { makeImgPath } from "../utils";
 import { LinearGradient } from "expo-linear-gradient";
+import { useQuery } from "react-query";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -53,6 +54,22 @@ const Detail: React.FC<DetailScreenProps> = ({
   navigation: { setOptions },
   route: { params },
 }) => {
+  const { isLoading: isLoadingMovies, data: dataMovies } = useQuery(
+    ["movies", params.id],
+    moviesApi.detail,
+    {
+      enabled: "title" in params,
+    }
+  );
+  const { isLoading: isLoadingTv, data: dataTv } = useQuery(
+    ["tv", params.id],
+    tvApi.detail,
+    {
+      enabled: "name" in params,
+    }
+  );
+  console.log("movies", dataMovies);
+  console.log("tv", dataTv);
   const theme = useTheme();
   useEffect(() => {
     setOptions({ title: "title" in params ? "Movie" : "TV Show" });
