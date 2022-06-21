@@ -61,7 +61,10 @@ const Slide: React.FC<SlideProps> = ({
   const theme = useTheme();
   const navigation = useNavigation<RootNavProp>();
   const goToDetail = () => {
-    navigation.navigate("Stack", { screen: "Detail" });
+    navigation.navigate("Stack", {
+      screen: "Detail",
+      params: { title: movieTitle },
+    });
   };
   return (
     <TouchableWithoutFeedback onPress={goToDetail}>

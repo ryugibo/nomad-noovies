@@ -20,24 +20,24 @@ const Title = styled(Text)`
 
 interface VMediaProps {
   posterPath: string;
-  mediaTitle: string;
+  title: string;
   vote: number;
 }
 
 type RootNavProp = NativeStackNavigationProp<RootStackParamList, "Tabs">;
 
-const VMedia: React.FC<VMediaProps> = ({ posterPath, mediaTitle, vote }) => {
+const VMedia: React.FC<VMediaProps> = ({ posterPath, title, vote }) => {
   const navigation = useNavigation<RootNavProp>();
   const goToDetail = () => {
-    navigation.navigate("Stack", { screen: "Detail" });
+    navigation.navigate("Stack", { screen: "Detail", params: { title } });
   };
   return (
     <TouchableOpacity onPress={goToDetail}>
       <Movie>
         <Poster path={posterPath} />
         <Title>
-          {mediaTitle.slice(0, 13)}
-          {mediaTitle.length > 13 ? "..." : ""}
+          {title.slice(0, 13)}
+          {title.length > 13 ? "..." : ""}
         </Title>
         <Vote vote={vote} />
       </Movie>

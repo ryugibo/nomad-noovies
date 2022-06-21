@@ -5,7 +5,7 @@ import Stack from "./Stack";
 
 export type RootStackParamList = {
   Tabs: undefined;
-  Stack: { screen: string };
+  Stack: { screen: string; params: { title: string } };
 };
 
 const Nav = createNativeStackNavigator<RootStackParamList>();

@@ -34,7 +34,7 @@ const ReleaseDate = styled(Text)`
 
 interface HMediaProps {
   posterPath: string;
-  mediaTitle: string;
+  title: string;
   overview: string;
   releaseDate?: string;
   vote?: number;
@@ -44,21 +44,21 @@ type RootNavProp = NativeStackNavigationProp<RootStackParamList, "Tabs">;
 
 const HMedia: React.FC<HMediaProps> = ({
   posterPath,
-  mediaTitle,
+  title,
   overview,
   releaseDate,
   vote,
 }) => {
   const navigation = useNavigation<RootNavProp>();
   const goToDetail = () => {
-    navigation.navigate("Stack", { screen: "Detail" });
+    navigation.navigate("Stack", { screen: "Detail", params: { title } });
   };
   return (
     <TouchableOpacity onPress={goToDetail}>
       <HMovie>
         <Poster path={posterPath} />
         <HColumn>
-          <Title>{mediaTitle}</Title>
+          <Title>{title}</Title>
           {releaseDate ? (
             <ReleaseDate>
               {new Date(releaseDate).toLocaleDateString("ko", {

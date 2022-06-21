@@ -4,7 +4,6 @@ import styled from "styled-components/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Swiper from "react-native-swiper";
 import Slide from "../components/Slide";
-import VMedia from "../components/VMedia";
 import HMedia from "../components/HMedia";
 import { useQuery, useQueryClient } from "react-query";
 import { Movie, MovieResponse, moviesApi } from "../api";
@@ -101,7 +100,7 @@ const Movies: React.FC<NativeStackScreenProps<any, "Movies">> = () => {
       renderItem={({ item }) => (
         <HMedia
           posterPath={item.poster_path || ""}
-          mediaTitle={item.title}
+          title={item.title}
           overview={item.overview}
           releaseDate={item.release_date}
           vote={item.vote_average}
