@@ -79,7 +79,7 @@ export const moviesApi: Fetchers<MovieResponse> = {
   detail: async ({ queryKey }) => {
     const [_, id] = queryKey;
     return await fetch(
-      `${BASE_URL}/movie/${id}?api_key=${API_KEY}&${PARAMS}`
+      `${BASE_URL}/movie/${id}?api_key=${API_KEY}&${PARAMS}&append_to_response=videos,images`
     ).then((res) => res.json());
   },
 };
@@ -106,7 +106,7 @@ export const tvApi: Fetchers<TVResponse> = {
   detail: async ({ queryKey }) => {
     const [_, id] = queryKey;
     return await fetch(
-      `${BASE_URL}/tv/${id}?api_key=${API_KEY}&${PARAMS}`
+      `${BASE_URL}/tv/${id}?api_key=${API_KEY}&${PARAMS}&append_to_response=videos,images`
     ).then((res) => res.json());
   },
 };
