@@ -18,7 +18,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useQuery } from "react-query";
 import Loader from "../components/Loader";
 import { Ionicons } from "@expo/vector-icons";
-import * as WebBroswer from "expo-web-browser";
+import * as WebBrowser from "expo-web-browser";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
@@ -87,7 +87,13 @@ const Detail: React.FC<DetailScreenProps> = ({
   const openYTLink = async (key) => {
     const baseUrl = `https://m.youtube.com/watch?v=${key}`;
     // await Linking.openURL(baseUrl);
-    await WebBroswer.openBrowserAsync(baseUrl);
+    let browserPackage: string | undefined;
+    if (Platform.OS === "android") {
+      const tabsSupportingBrowsers =
+        await WebBrowser.getCustomTabsSupportingBrowsersAsync();
+      browserPackage = tabsSupportingBrowsers?.preferredBrowserPackage;
+    }
+    await WebBrowser.openBrowserAsync(baseUrl, { browserPackage });
   };
   return (
     <Container>
