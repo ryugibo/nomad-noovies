@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components/native";
 import { ScrollView, Text } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Movie, TV } from "../api";
+import Poster from "../components/Poster";
 
 const Container = styled(ScrollView)`
   background-color: ${(props) => props.theme.mainBgColor};
@@ -9,23 +11,21 @@ const Container = styled(ScrollView)`
 `;
 
 type RootStackParamList = {
-  Detail: { title: string };
+  Detail: Movie | TV;
 };
 
 type DetailScreenProps = NativeStackScreenProps<RootStackParamList, "Detail">;
 
 const Detail: React.FC<DetailScreenProps> = ({
   navigation: { setOptions },
-  route: {
-    params: { title },
-  },
+  route: { params },
 }) => {
   useEffect(() => {
-    setOptions({ title });
+    setOptions({ title: "title" in params ? params.title : params.name });
   }, []);
   return (
     <Container>
-      <Text>Detail</Text>
+      <Poster path={params.poster_path || ""} />
     </Container>
   );
 };

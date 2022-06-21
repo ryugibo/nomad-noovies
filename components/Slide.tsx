@@ -14,6 +14,7 @@ import Vote from "./Vote";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/Root";
+import { Movie } from "../api";
 
 const SlideView = styled(View)`
   flex: 1;
@@ -47,6 +48,7 @@ interface SlideProps {
   movieTitle: string;
   overview: string;
   voteAverage: number;
+  fullData: Movie;
 }
 
 type RootNavProp = NativeStackNavigationProp<RootStackParamList, "Tabs">;
@@ -57,13 +59,14 @@ const Slide: React.FC<SlideProps> = ({
   movieTitle,
   overview,
   voteAverage,
+  fullData,
 }) => {
   const theme = useTheme();
   const navigation = useNavigation<RootNavProp>();
   const goToDetail = () => {
     navigation.navigate("Stack", {
       screen: "Detail",
-      params: { title: movieTitle },
+      params: { ...fullData },
     });
   };
   return (

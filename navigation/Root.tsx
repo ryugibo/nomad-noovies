@@ -2,10 +2,11 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Tabs from "./Tabs";
 import Stack from "./Stack";
+import { Movie, TV } from "../api";
 
 export type RootStackParamList = {
   Tabs: undefined;
-  Stack: { screen: string; params: { title: string } };
+  Stack: { screen: string; params: Movie | TV };
 };
 
 const Nav = createNativeStackNavigator<RootStackParamList>();

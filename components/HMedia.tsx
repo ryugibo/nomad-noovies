@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
+import { Movie } from "../api";
 import Poster from "../components/Poster";
 import Vote from "../components/Vote";
 import { RootStackParamList } from "../navigation/Root";
@@ -38,6 +39,7 @@ interface HMediaProps {
   overview: string;
   releaseDate?: string;
   vote?: number;
+  fullData: Movie;
 }
 
 type RootNavProp = NativeStackNavigationProp<RootStackParamList, "Tabs">;
@@ -48,10 +50,11 @@ const HMedia: React.FC<HMediaProps> = ({
   overview,
   releaseDate,
   vote,
+  fullData,
 }) => {
   const navigation = useNavigation<RootNavProp>();
   const goToDetail = () => {
-    navigation.navigate("Stack", { screen: "Detail", params: { title } });
+    navigation.navigate("Stack", { screen: "Detail", params: { ...fullData } });
   };
   return (
     <TouchableOpacity onPress={goToDetail}>

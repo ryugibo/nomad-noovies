@@ -1,3 +1,5 @@
+import { QueryFunction } from "react-query";
+
 const API_KEY = "3c983d1e60d94e03820760af3fae791e";
 
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -27,11 +29,35 @@ export interface Movie {
   vote_count: number;
 }
 
+export interface TV {
+  name: string;
+  original_name: string;
+  origin_country: string[];
+  vote_count: number;
+  backdrop_path: string | null;
+  vote_average: number;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  overview: string;
+  poster_path: string | null;
+  first_air_date: string;
+  popularity: number;
+  media_type: string;
+}
+
 export interface MovieResponse extends BaseResponse {
   results: Movie[];
 }
 
-export const moviesApi = {
+export interface TVResponse extends BaseResponse {
+  results: TV[];
+}
+interface Fetchers<T> {
+  [key: string]: QueryFunction<T>;
+}
+
+export const moviesApi: Fetchers<MovieResponse> = {
   trending: () =>
     fetch(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}&${PARAMS}`).then(
       (res) => res.json()
@@ -53,7 +79,7 @@ export const moviesApi = {
   },
 };
 
-export const tvApi = {
+export const tvApi: Fetchers<TVResponse> = {
   trending: () =>
     fetch(`${BASE_URL}/trending/tv/week?api_key=${API_KEY}&${PARAMS}`).then(
       (res) => res.json()
