@@ -6,10 +6,17 @@ import Tv from "../screens/Tv";
 import Search from "../screens/Search";
 import { useColorScheme } from "react-native";
 import { YELLOW_COLOR, BLACK_COLOR, DARK_GREY, LIGHT_GREY } from "../colors";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  Tabs: { title: string };
+};
+
+type TabsScreenProps = NativeStackScreenProps<RootStackParamList, "Tabs">;
 
 const Tab = createBottomTabNavigator();
 
-const Tabs = () => {
+const Tabs: React.FC<TabsScreenProps> = () => {
   const isDark = useColorScheme() === "dark";
   return (
     <Tab.Navigator
