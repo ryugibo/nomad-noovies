@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Linking,
+  Platform,
+  Share,
 } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Movie, moviesApi, TV, tvApi } from "../api";
@@ -71,6 +72,7 @@ const Detail: React.FC<DetailScreenProps> = ({
   navigation: { setOptions },
   route: { params },
 }) => {
+  const theme = useTheme();
   const isMovie = "title" in params;
   const { isLoading, data } = useQuery(
     [isMovie ? "movies" : "tv", params.id],
@@ -79,12 +81,42 @@ const Detail: React.FC<DetailScreenProps> = ({
       enabled: "title" in params,
     }
   );
-  const theme = useTheme();
+  const shareMedia = async () => {
+    const isAndroid = Platform.OS === "android";
+    const homepage = isMovie
+      ? `https://www.imdb.com/title/${data.imdb_id}/`
+      : data.homepage;
+    if (isAndroid) {
+      await Share.share({
+        message: `${params.overview}\nCheck it out: ${homepage}`,
+        title: "title" in params ? params.title : params.name,
+      });
+    } else {
+      await Share.share({
+        title: "title" in params ? params.title : params.name,
+        url: homepage,
+      });
+    }
+  };
+  const ShareButton = () => (
+    <TouchableOpacity onPress={shareMedia}>
+      <Ionicons name="share-outline" color={theme.textColor} size={24} />
+    </TouchableOpacity>
+  );
   useEffect(() => {
-    setOptions({ title: "title" in params ? "Movie" : "TV Show" });
+    setOptions({
+      title: "title" in params ? "Movie" : "TV Show",
+    });
   }, []);
+  useEffect(() => {
+    if (data) {
+      setOptions({
+        headerRight: () => <ShareButton />,
+      });
+    }
+  }, [data]);
 
-  const openYTLink = async (key) => {
+  const openYTLink = async (key: string) => {
     const baseUrl = `https://m.youtube.com/watch?v=${key}`;
     // await Linking.openURL(baseUrl);
     let browserPackage: string | undefined;
@@ -116,7 +148,7 @@ const Detail: React.FC<DetailScreenProps> = ({
         {isLoading ? <Loader /> : null}
         {data?.videos?.results?.map((video) => (
           <VideoBtn key={video.key} onPress={() => openYTLink(video.key)}>
-            <Ionicons name="logo-youtube" color="white" size={24} />
+            <Ionicons name="logo-youtube" color={theme.textColor} size={24} />
             <BtnText>{video.name}</BtnText>
           </VideoBtn>
         ))}
